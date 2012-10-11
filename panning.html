@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<script type="text/javascript" src="js/jquery-min.js"></script>
+		<style type="text/css">
+			#container {
+				border: 1px black solid;
+				width: 400px;
+				height:429px;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			#content {
+				width: 965px;
+				height:429px;
+				background-image: url('img/meadow.png');
+				position: relative;
+				left: 0px;
+			}			
+		</style>
+		<script type="text/javascript">
+
+			function Panner(container, content) {
+
+				var self = this;
+				var offset = 0;
+				var contentWidth = 965;
+				var containerWidth = 400;
+				var minOffset = -contentWidth + containerWidth;
+				var maxOffset = 0;
+				var autoPanSpeed = -1;
+				var autoPan = true;
+
+				this.start = function() {
+					setInterval(this.onInterval, 100);
+				}
+
+				this.onInterval = function() {
+					
+					if(autoPan) {
+						offset += autoPanSpeed;
+						if(contentOutsideBounds()) {
+							if(autoPanSpeed < 0) {
+								offset = minOffset;									
+							} else if(autoPanSpeed > 0) {
+								offset = maxOffset;
+							}
+							autoPanSpeed = autoPanSpeed * -1;
+						}
+						content.style.left = offset + "px";
+					}
+				}
+
+				var contentOutsideBounds = function() {
+					return (offset < minOffset) || (offset > maxOffset); 
+				}
+								
+			}
+
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="content"></div>
+		</div>
+		<script type="text/javascript">
+			var container = document.getElementById('container');
+			var content = document.getElementById('content');
+			var panner = new Panner(container, content);
+			panner.start();
+		</script>
+	</body>
+</html>
