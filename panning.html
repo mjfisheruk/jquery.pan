@@ -20,42 +20,51 @@
 		</style>
 		<script type="text/javascript">
 
-			function Panner(container, content) {
+			(function( $ ){
+  				$.fn.pan = function(options) {
 
-				var self = this;
-				var offset = 0;
-				var contentWidth = 965;
-				var containerWidth = 400;
-				var minOffset = -contentWidth + containerWidth;
-				var maxOffset = 0;
-				var autoPanSpeed = -1;
-				var autoPan = true;
+  					var settings = $.extend( {
+				      //'container'         : null,
+				      //'content'			: null
+				    }, options);
 
-				this.start = function() {
-					setInterval(this.onInterval, 100);
-				}
+				    var container = this.get()[0];
+				    var content = this.find('>:first-child').get()[0];
 
-				this.onInterval = function() {
-					
-					if(autoPan) {
-						offset += autoPanSpeed;
-						if(contentOutsideBounds()) {
-							if(autoPanSpeed < 0) {
-								offset = minOffset;									
-							} else if(autoPanSpeed > 0) {
-								offset = maxOffset;
+				    var offset = 0;
+					var contentWidth = 965;
+					var containerWidth = 400;
+					var minOffset = -contentWidth + containerWidth;
+					var maxOffset = 0;
+					var autoPanSpeed = -1;
+					var autoPan = true;
+
+					var onInterval = function() {
+						
+						if(autoPan) {
+							offset += autoPanSpeed;
+							if(contentOutsideBounds()) {
+								if(autoPanSpeed < 0) {
+									offset = minOffset;									
+								} else if(autoPanSpeed > 0) {
+									offset = maxOffset;
+								}
+								autoPanSpeed = autoPanSpeed * -1;
 							}
-							autoPanSpeed = autoPanSpeed * -1;
+							content.style.left = offset + "px";
 						}
-						content.style.left = offset + "px";
 					}
-				}
 
-				var contentOutsideBounds = function() {
-					return (offset < minOffset) || (offset > maxOffset); 
-				}
-								
-			}
+					var contentOutsideBounds = function() {
+						return (offset < minOffset) || (offset > maxOffset); 
+					}
+
+					setInterval(onInterval, 100);
+
+					return this;
+  				};
+			})( jQuery );
+
 
 		</script>
 	</head>
@@ -64,10 +73,7 @@
 			<div id="content"></div>
 		</div>
 		<script type="text/javascript">
-			var container = document.getElementById('container');
-			var content = document.getElementById('content');
-			var panner = new Panner(container, content);
-			panner.start();
+			$('#container').pan();
 		</script>
 	</body>
 </html>
