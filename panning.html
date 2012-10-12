@@ -6,6 +6,7 @@
 				border: 1px black solid;
 				width: 400px;
 				height:429px;
+				left: 200px;
 				overflow: hidden;
 				position: relative;
 			}
@@ -24,43 +25,67 @@
   				$.fn.pan = function(options) {
 
   					var settings = $.extend( {
-				      //'container'         : null,
-				      //'content'			: null
+				      'speed'			: 1,
+				      'updateInterval'	: 100
 				    }, options);
 
-				    var container = this.get()[0];
-				    var content = this.find('>:first-child').get()[0];
+				    var container = this;
+				    var content = this.children(':first');
 
-				    var offset = 0;
-					var contentWidth = 965;
-					var containerWidth = 400;
+				    var offset = Number(content.css('left').replace('px', ''));
+					var contentWidth = content.width();
+					var containerWidth = container.width();
 					var minOffset = -contentWidth + containerWidth;
 					var maxOffset = 0;
-					var autoPanSpeed = -1;
 					var autoPan = true;
+
+					var mouseOver = false;
+					var mousePosition = {
+						'x': 0,
+						'y': 0
+					};
+
+					var autoPanSpeed = -settings.speed;
+					var updateInterval = settings.updateInterval;
 
 					var onInterval = function() {
 						
-						if(autoPan) {
-							offset += autoPanSpeed;
-							if(contentOutsideBounds()) {
-								if(autoPanSpeed < 0) {
-									offset = minOffset;									
-								} else if(autoPanSpeed > 0) {
-									offset = maxOffset;
-								}
-								autoPanSpeed = autoPanSpeed * -1;
+						if(mouseOver) {
+							if(mousePosition.x < 50) {
+								offset += 2;
+							} else if (mousePosition.x > containerWidth - 50) {
+								offset -= 2;
 							}
-							content.style.left = offset + "px";
+						} else if(autoPan) {
+							offset += autoPanSpeed;
 						}
+
+						constrainToBounds();
+						
+						if(autoPan) {
+							if(offset == minOffset) autoPanSpeed = Math.abs(autoPanSpeed);
+							if(offset == maxOffset) autoPanSpeed = -Math.abs(autoPanSpeed);
+						}
+
+						content.css('left', offset + "px");
 					}
 
-					var contentOutsideBounds = function() {
-						return (offset < minOffset) || (offset > maxOffset); 
+					var constrainToBounds = function() {
+						if(offset < minOffset) offset = minOffset;
+						if(offset > maxOffset) offset = maxOffset;
 					}
 
-					setInterval(onInterval, 100);
+					this.bind('mousemove', function(evt) {
+						mousePosition.x = evt.pageX - container.offset().left;
+						mousePosition.y = evt.pageY - container.offset().top;
+						mouseOver = true;
+					});
 
+					this.bind('mouseout', function(evt) {
+						mouseOver = false;
+					});
+
+					setInterval(onInterval, updateInterval);
 					return this;
   				};
 			})( jQuery );
@@ -73,7 +98,10 @@
 			<div id="content"></div>
 		</div>
 		<script type="text/javascript">
-			$('#container').pan();
+			$('#container').pan({
+				speed: 1,
+				updateInterval: 30
+			});
 		</script>
 	</body>
 </html>
