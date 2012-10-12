@@ -9,18 +9,34 @@
 
         //Precalculate the limits of panning - offset stores
         //the current amount of pan throughout
-        var offset = Number(content.css('left').replace('px', ''));
-        var containerSize = container.width();
-        var contentSize = content.width();
-        var minOffset = -contentSize + containerSize;
-        var maxOffset = 0;
+        var offset = {
+            'x': Number(content.css('left').replace('px', '')),
+            'y': Number(content.css('top').replace('px', ''))
+        };
+        var containerSize = {
+            'width': container.width(), 
+            'height': container.height()
+        };
+        var contentSize = {
+            'width': content.width(), 
+            'height': content.height()
+        };
+        var minOffset = {
+            'x': -contentSize.width + containerSize.width,
+            'y': -contentSize.height + containerSize.height
+        }
+        var maxOffset = {
+            'x': 0,
+            'y': 0
+        };
 
         var settings = $.extend( {
-            'auto'            : true,
-            'autoSpeed'       : 1,
-            'mouseSpeed'      : 2,
-            'mouseBorder'     : containerSize * 0.25,
-            'updateInterval'  : 100
+            'auto'                  : true,
+            'autoHorizontalSpeed'   : 1,
+            'autoVerticalSpeed'     : 1,
+            'mouseSpeed'            : 2,
+            'mouseBorder'           : Math.min(containerSize.width, containerSize.height) * 0.25,
+            'updateInterval'        : 100
         }, options);
 
         //Mouse state variables, set by bound mouse events below
@@ -42,13 +58,21 @@
                 //end of the element, pan in response to the
                 //mouse position.
                 if(mousePosition.x < settings.mouseBorder) {
-                    offset += settings.mouseSpeed;
-                } else if (mousePosition.x > containerSize - settings.mouseBorder) {
-                    offset -= settings.mouseSpeed;
+                    offset.x += settings.mouseSpeed;
+                }
+                if (mousePosition.x > containerSize.width - settings.mouseBorder) {
+                    offset.x -= settings.mouseSpeed;
+                }
+                if(mousePosition.y < settings.mouseBorder) {
+                    offset.y += settings.mouseSpeed;
+                }
+                if (mousePosition.y > containerSize.height - settings.mouseBorder) {
+                    offset.y -= settings.mouseSpeed;
                 }
             } else if(settings.auto) {
                 //Mouse isn't over - just pan normally
-                offset += settings.autoSpeed;
+                offset.x += settings.autoHorizontalSpeed;
+                offset.y += settings.autoVerticalSpeed;
             }
 
             //If the previous updates have take the content
@@ -59,18 +83,23 @@
             //panning in the right direction if the content has
             //moved as far as it can go
             if(settings.auto) {
-                if(offset == minOffset) settings.autoSpeed = Math.abs(settings.autoSpeed);
-                if(offset == maxOffset) settings.autoSpeed = -Math.abs(settings.autoSpeed);
+                if(offset.x == minOffset.x) settings.autoHorizontalSpeed = Math.abs(settings.autoHorizontalSpeed);
+                if(offset.x == maxOffset.x) settings.autoHorizontalSpeed = -Math.abs(settings.autoHorizontalSpeed);
+                if(offset.y == minOffset.y) settings.autoVerticalSpeed = Math.abs(settings.autoVerticalSpeed);
+                if(offset.y == maxOffset.y) settings.autoVerticalSpeed = -Math.abs(settings.autoVerticalSpeed);
             }
 
             //Finally, update the position of the content
             //with our carefully calculated value
-            content.css('left', offset + "px");
+            content.css('left', offset.x + "px");
+            content.css('top', offset.y + "px");
         }
 
         var constrainToBounds = function() {
-            if(offset < minOffset) offset = minOffset;
-            if(offset > maxOffset) offset = maxOffset;
+            if(offset.x < minOffset.x) offset.x = minOffset.x;
+            if(offset.x > maxOffset.x) offset.x = maxOffset.x;
+            if(offset.y < minOffset.y) offset.y = minOffset.y;
+            if(offset.y > maxOffset.y) offset.y = maxOffset.y;
         }
 
         this.bind('mousemove', function(evt) {

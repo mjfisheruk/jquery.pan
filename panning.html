@@ -6,7 +6,7 @@
 			#container {
 				border: 1px black solid;
 				width: 500px;
-				height:429px;
+				height:200px;
 				left: 50px;
 				overflow: hidden;
 				position: relative;
@@ -28,7 +28,8 @@
 		<script type="text/javascript">
 			$('#container').pan({
 				auto: true,
-				autoSpeed: 2,
+				autoHorizontalSpeed: 2,
+				autoVerticalSpeed: 6,
 				mouseSpeed: 4,
 				updateInterval: 30,
 			});
