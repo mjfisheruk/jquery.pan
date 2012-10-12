@@ -5,9 +5,9 @@
 		<style type="text/css">
 			#container {
 				border: 1px black solid;
-				width: 400px;
+				width: 500px;
 				height:429px;
-				left: 200px;
+				left: 50px;
 				overflow: hidden;
 				position: relative;
 			}
@@ -27,8 +27,10 @@
 		</div>
 		<script type="text/javascript">
 			$('#container').pan({
-				speed: 1,
-				updateInterval: 30
+				auto: true,
+				autoSpeed: 2,
+				mouseSpeed: 4,
+				updateInterval: 30,
 			});
 		</script>
 	</body>

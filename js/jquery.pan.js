@@ -1,10 +1,6 @@
 (function( $ ){
-    $.fn.pan = function(options) {
 
-        var settings = $.extend( {
-            'speed'           : 1,
-            'updateInterval'  : 100
-        }, options);
+    $.fn.pan = function(options) {
 
         //Container is element this plugin is applied to;
         //we're pan it's child element, content
@@ -19,10 +15,14 @@
         var minOffset = -contentSize + containerSize;
         var maxOffset = 0;
 
-        //Determines whether we pan without mouse interaction
-        var autoPan = true;
-        var autoPanSpeed = settings.speed;
-        
+        var settings = $.extend( {
+            'auto'            : true,
+            'autoSpeed'       : 1,
+            'mouseSpeed'      : 2,
+            'mouseBorder'     : containerSize * 0.25,
+            'updateInterval'  : 100
+        }, options);
+
         //Mouse state variables, set by bound mouse events below
         var mouseOver = false;
         var mousePosition = {
@@ -41,14 +41,14 @@
                 //If we're in the interaction zones to either
                 //end of the element, pan in response to the
                 //mouse position.
-                if(mousePosition.x < 50) {
-                    offset += 2;
-                } else if (mousePosition.x > containerSize - 50) {
-                    offset -= 2;
+                if(mousePosition.x < settings.mouseBorder) {
+                    offset += settings.mouseSpeed;
+                } else if (mousePosition.x > containerSize - settings.mouseBorder) {
+                    offset -= settings.mouseSpeed;
                 }
-            } else if(autoPan) {
+            } else if(settings.auto) {
                 //Mouse isn't over - just pan normally
-                offset += autoPanSpeed;
+                offset += settings.autoSpeed;
             }
 
             //If the previous updates have take the content
@@ -58,9 +58,9 @@
             //If we're panning automatically, make sure we're
             //panning in the right direction if the content has
             //moved as far as it can go
-            if(autoPan) {
-                if(offset == minOffset) autoPanSpeed = Math.abs(autoPanSpeed);
-                if(offset == maxOffset) autoPanSpeed = -Math.abs(autoPanSpeed);
+            if(settings.auto) {
+                if(offset == minOffset) settings.autoSpeed = Math.abs(settings.autoSpeed);
+                if(offset == maxOffset) settings.autoSpeed = -Math.abs(settings.autoSpeed);
             }
 
             //Finally, update the position of the content
@@ -88,4 +88,5 @@
         setInterval(onInterval, updateInterval);
         return this;
     };
+
 })( jQuery );
