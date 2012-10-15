@@ -1,5 +1,16 @@
 (function( $ ){
 
+    var getSize = function($element) {
+        return {
+            'width': $element.width(), 
+            'height': $element.height()
+        };
+    };
+
+    var toCoords = function(x, y) {
+        return {'x': x, 'y': y};
+    };
+
     $.fn.pan = function(options) {
 
         //Container is element this plugin is applied to;
@@ -9,34 +20,35 @@
 
         //Precalculate the limits of panning - offset stores
         //the current amount of pan throughout
-        var offset = {
-            'x': Number(content.css('left').replace('px', '')),
-            'y': Number(content.css('top').replace('px', ''))
-        };
-        var containerSize = {
-            'width': container.width(), 
-            'height': container.height()
-        };
-        var contentSize = {
-            'width': content.width(), 
-            'height': content.height()
-        };
-        var minOffset = {
-            'x': -contentSize.width + containerSize.width,
-            'y': -contentSize.height + containerSize.height
-        }
-        var maxOffset = {
-            'x': 0,
-            'y': 0
-        };
+        var offset = toCoords(
+            Number(content.css('left').replace('px', '')),
+            Number(content.css('top').replace('px', ''))
+        );
+        
+        var containerSize = getSize(container);
+        var contentSize = getSize(content);
+
+        var minOffset = toCoords(
+            -contentSize.width + containerSize.width,
+            -contentSize.height + containerSize.height
+        );
+
+        var maxOffset = toCoords(0, 0);
+
+        //By default, assume mouse sensitivity border
+        //is 25% of the smallest dimension
+        var defaultMouseBorder = 0.25 * Math.min(
+            containerSize.width,
+            containerSize.height
+        );
 
         var settings = $.extend( {
             'auto'                  : true,
-            'autoHorizontalSpeed'   : 1,
-            'autoVerticalSpeed'     : 1,
+            'speedX'                : 1,
+            'speedY'                : 0,
             'mouseSpeed'            : 2,
-            'mouseBorder'           : Math.min(containerSize.width, containerSize.height) * 0.25,
-            'updateInterval'        : 100
+            'mouseBorder'           : defaultMouseBorder,
+            'updateInterval'        : 50
         }, options);
 
         //Mouse state variables, set by bound mouse events below
@@ -69,10 +81,11 @@
                 if (mousePosition.y > containerSize.height - settings.mouseBorder) {
                     offset.y -= settings.mouseSpeed;
                 }
+            
             } else if(settings.auto) {
                 //Mouse isn't over - just pan normally
-                offset.x += settings.autoHorizontalSpeed;
-                offset.y += settings.autoVerticalSpeed;
+                offset.x += settings.speedX;
+                offset.y += settings.speedY;
             }
 
             //If the previous updates have take the content
@@ -83,10 +96,10 @@
             //panning in the right direction if the content has
             //moved as far as it can go
             if(settings.auto) {
-                if(offset.x == minOffset.x) settings.autoHorizontalSpeed = Math.abs(settings.autoHorizontalSpeed);
-                if(offset.x == maxOffset.x) settings.autoHorizontalSpeed = -Math.abs(settings.autoHorizontalSpeed);
-                if(offset.y == minOffset.y) settings.autoVerticalSpeed = Math.abs(settings.autoVerticalSpeed);
-                if(offset.y == maxOffset.y) settings.autoVerticalSpeed = -Math.abs(settings.autoVerticalSpeed);
+                if(offset.x == minOffset.x) settings.speedX = Math.abs(settings.speedX);
+                if(offset.x == maxOffset.x) settings.speedX = -Math.abs(settings.speedX);
+                if(offset.y == minOffset.y) settings.speedY = Math.abs(settings.speedY);
+                if(offset.y == maxOffset.y) settings.speedY = -Math.abs(settings.speedY);
             }
 
             //Finally, update the position of the content
