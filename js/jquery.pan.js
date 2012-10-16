@@ -41,7 +41,7 @@
 
         //By default, assume mouse sensitivity border
         //is 25% of the smallest dimension
-        var defaultMouseBorder = 0.25 * Math.min(
+        var defaultMouseEdge = 0.25 * Math.min(
             containerSize.width,
             containerSize.height
         );
@@ -49,9 +49,10 @@
         var settings = $.extend( {
             'autoSpeedX'            : 0,
             'autoSpeedY'            : 0,
-            'mouseControl'          : 'scroll',
-            'mouseSpeed'            : 5,
-            'mouseBorder'           : defaultMouseBorder,
+            'mouseControl'          : 'kinetic',
+            'kineticDamping'        : 0.8,
+            'mouseEdgeSpeed'        : 5,
+            'mouseEdgeWidth'        : defaultMouseEdge,
             'updateInterval'        : 50,
             'mousePan'              : null
         }, options);
@@ -64,7 +65,6 @@
         var dragging = false;
         var lastMousePosition = null;
         var kineticVelocity = toCoords(0, 0);
-        var kineticDamping = 0.8;
 
         //Delay in ms between updating position of content
         var updateInterval = settings.updateInterval;
@@ -74,7 +74,7 @@
             //User's mouse being over the element stops autoPanning
             if(mouseOver) {
                 var mouseControlHandlers = {
-                    'scroll'        : updateScroll,
+                    'edge'          : updateEdge,
                     'proportional'  : updateProportional,
                     'kinetic'       : updateKinetic
                 };
@@ -103,7 +103,7 @@
             content.css('top', offset.y + "px");
         }
 
-        var updateScroll = function() {
+        var updateEdge = function() {
             //The user's possibly maybe mouse-navigating,
             //so we'll find out what direction in case we need
             //to handle any callbacks
@@ -112,20 +112,20 @@
             //If we're in the interaction zones to either
             //end of the element, pan in response to the
             //mouse position.
-            if(mousePosition.x < settings.mouseBorder) {
-                offset.x += settings.mouseSpeed;
+            if(mousePosition.x < settings.mouseEdgeWidth) {
+                offset.x += settings.mouseEdgeSpeed;
                 newDirection.x = -1;
             }
-            if (mousePosition.x > containerSize.width - settings.mouseBorder) {
-                offset.x -= settings.mouseSpeed;
+            if (mousePosition.x > containerSize.width - settings.mouseEdgeWidth) {
+                offset.x -= settings.mouseEdgeSpeed;
                 newDirection.x = 1;
             }
-            if(mousePosition.y < settings.mouseBorder) {
-                offset.y += settings.mouseSpeed;
+            if(mousePosition.y < settings.mouseEdgeWidth) {
+                offset.y += settings.mouseEdgeSpeed;
                 newDirection.y = -1;
             }
-            if (mousePosition.y > containerSize.height - settings.mouseBorder) {
-                offset.y -= settings.mouseSpeed;
+            if (mousePosition.y > containerSize.height - settings.mouseEdgeWidth) {
+                offset.y -= settings.mouseEdgeSpeed;
                 newDirection.y = 1;
             }
 
@@ -143,6 +143,7 @@
 
         var updateKinetic = function() {
             if(dragging) {
+                
                 if(lastMousePosition == null) {
                     lastMousePosition = toCoords(mousePosition.x, mousePosition.y);    
                 }
@@ -151,15 +152,14 @@
                     mousePosition.x - lastMousePosition.x,
                     mousePosition.y - lastMousePosition.y
                 );
-
             }
 
             offset.x += kineticVelocity.x;
             offset.y += kineticVelocity.y;
 
             kineticVelocity = toCoords(
-                kineticVelocity.x * kineticDamping,
-                kineticVelocity.y * kineticDamping
+                kineticVelocity.x * settings.kineticDamping,
+                kineticVelocity.y * settings.kineticDamping
             );
 
             lastMousePosition = toCoords(mousePosition.x, mousePosition.y);
@@ -194,12 +194,8 @@
         });
 
         this.bind('mousedown', function(evt) {
-            if(!dragging) {
-                dragStartPosition = toCoords(mousePosition.x, mousePosition.y);
-                dragStartOffset = toCoords(offset.x, offset.y);
-            }
             dragging = true;
-            return false;
+            return false; //Prevents FF from thumbnailing & dragging
         });
 
         this.bind('mouseup', function(evt) {
