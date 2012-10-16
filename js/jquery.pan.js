@@ -50,6 +50,7 @@
             'auto'                  : true,
             'speedX'                : 1,
             'speedY'                : 0,
+            'mouseControl'          : 'scroll',
             'mouseSpeed'            : 2,
             'mouseBorder'           : defaultMouseBorder,
             'updateInterval'        : 50,
@@ -70,35 +71,10 @@
         var onInterval = function() {
             
             //User's mouse being over the element stops autoPanning
-            if(mouseOver) {
-
-                //The user's possibly maybe mouse-navigating,
-                //so we'll find out what direction in case we need
-                //to handle any callbacks
-                var newDirection = toCoords(0, 0);
-                
-                //If we're in the interaction zones to either
-                //end of the element, pan in response to the
-                //mouse position.
-                if(mousePosition.x < settings.mouseBorder) {
-                    offset.x += settings.mouseSpeed;
-                    newDirection.x = -1;
-                }
-                if (mousePosition.x > containerSize.width - settings.mouseBorder) {
-                    offset.x -= settings.mouseSpeed;
-                    newDirection.x = 1;
-                }
-                if(mousePosition.y < settings.mouseBorder) {
-                    offset.y += settings.mouseSpeed;
-                    newDirection.y = -1;
-                }
-                if (mousePosition.y > containerSize.height - settings.mouseBorder) {
-                    offset.y -= settings.mouseSpeed;
-                    newDirection.y = 1;
-                }
-
-                updateMouseDirection(newDirection);
-            
+            if(mouseOver && settings.mouseControl == 'scroll') {
+                updateScroll();
+            } else if(mouseOver && settings.mouseControl == 'proportional') {
+                updateProportional();
             } else if(settings.auto) {
                 //Mouse isn't over - just pan normally
                 offset.x += settings.speedX;
@@ -123,6 +99,44 @@
             //with our carefully calculated value
             content.css('left', offset.x + "px");
             content.css('top', offset.y + "px");
+        }
+
+        var updateScroll = function() {
+            //The user's possibly maybe mouse-navigating,
+            //so we'll find out what direction in case we need
+            //to handle any callbacks
+            var newDirection = toCoords(0, 0);
+            
+            //If we're in the interaction zones to either
+            //end of the element, pan in response to the
+            //mouse position.
+            if(mousePosition.x < settings.mouseBorder) {
+                offset.x += settings.mouseSpeed;
+                newDirection.x = -1;
+            }
+            if (mousePosition.x > containerSize.width - settings.mouseBorder) {
+                offset.x -= settings.mouseSpeed;
+                newDirection.x = 1;
+            }
+            if(mousePosition.y < settings.mouseBorder) {
+                offset.y += settings.mouseSpeed;
+                newDirection.y = -1;
+            }
+            if (mousePosition.y > containerSize.height - settings.mouseBorder) {
+                offset.y -= settings.mouseSpeed;
+                newDirection.y = 1;
+            }
+
+            updateMouseDirection(newDirection);
+        }
+
+        var updateProportional = function() {
+            var rx = mousePosition.x / containerSize.width;
+            var ry = mousePosition.y / containerSize.height;
+            offset = toCoords(
+                (minOffset.x - maxOffset.x) * rx + maxOffset.x,
+                (minOffset.y - maxOffset.y) * ry + maxOffset.y
+            );
         }
 
         var constrainToBounds = function() {
