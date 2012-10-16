@@ -47,11 +47,10 @@
         );
 
         var settings = $.extend( {
-            'auto'                  : true,
-            'speedX'                : 1,
-            'speedY'                : 0,
+            'autoSpeedX'            : 0,
+            'autoSpeedY'            : 0,
             'mouseControl'          : 'scroll',
-            'mouseSpeed'            : 2,
+            'mouseSpeed'            : 5,
             'mouseBorder'           : defaultMouseBorder,
             'updateInterval'        : 50,
             'mousePan'              : null
@@ -64,21 +63,23 @@
             'x': 0,
             'y': 0
         };
-        
+
         //Delay in ms between updating position of content
         var updateInterval = settings.updateInterval;
 
         var onInterval = function() {
             
             //User's mouse being over the element stops autoPanning
-            if(mouseOver && settings.mouseControl == 'scroll') {
-                updateScroll();
-            } else if(mouseOver && settings.mouseControl == 'proportional') {
-                updateProportional();
-            } else if(settings.auto) {
+            if(mouseOver) {
+                var mouseControlHandlers = {
+                    'scroll'        : updateScroll,
+                    'proportional'  : updateProportional
+                };
+                mouseControlHandlers[settings.mouseControl]();
+            } else {
                 //Mouse isn't over - just pan normally
-                offset.x += settings.speedX;
-                offset.y += settings.speedY;
+                offset.x += settings.autoSpeedX;
+                offset.y += settings.autoSpeedY;
             }
 
             //If the previous updates have take the content
@@ -88,12 +89,10 @@
             //If we're panning automatically, make sure we're
             //panning in the right direction if the content has
             //moved as far as it can go
-            if(settings.auto) {
-                if(offset.x == minOffset.x) settings.speedX = Math.abs(settings.speedX);
-                if(offset.x == maxOffset.x) settings.speedX = -Math.abs(settings.speedX);
-                if(offset.y == minOffset.y) settings.speedY = Math.abs(settings.speedY);
-                if(offset.y == maxOffset.y) settings.speedY = -Math.abs(settings.speedY);
-            }
+            if(offset.x == minOffset.x) settings.autoSpeedX = Math.abs(settings.autoSpeedX);
+            if(offset.x == maxOffset.x) settings.autoSpeedX = -Math.abs(settings.autoSpeedX);
+            if(offset.y == minOffset.y) settings.autoSpeedY = Math.abs(settings.autoSpeedY);
+            if(offset.y == maxOffset.y) settings.autoSpeedY = -Math.abs(settings.autoSpeedY);
 
             //Finally, update the position of the content
             //with our carefully calculated value
