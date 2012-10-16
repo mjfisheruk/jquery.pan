@@ -59,10 +59,12 @@
         //Mouse state variables, set by bound mouse events below
         var mouseOver = false;
         var mousePanningDirection = toCoords(0, 0);
-        var mousePosition = {
-            'x': 0,
-            'y': 0
-        };
+        var mousePosition = toCoords(0, 0);
+
+        var dragging = false;
+        var lastMousePosition = null;
+        var kineticVelocity = toCoords(0, 0);
+        var kineticDamping = 0.8;
 
         //Delay in ms between updating position of content
         var updateInterval = settings.updateInterval;
@@ -73,7 +75,8 @@
             if(mouseOver) {
                 var mouseControlHandlers = {
                     'scroll'        : updateScroll,
-                    'proportional'  : updateProportional
+                    'proportional'  : updateProportional,
+                    'kinetic'       : updateKinetic
                 };
                 mouseControlHandlers[settings.mouseControl]();
             } else {
@@ -138,6 +141,30 @@
             );
         }
 
+        var updateKinetic = function() {
+            if(dragging) {
+                if(lastMousePosition == null) {
+                    lastMousePosition = toCoords(mousePosition.x, mousePosition.y);    
+                }
+
+                kineticVelocity = toCoords(
+                    mousePosition.x - lastMousePosition.x,
+                    mousePosition.y - lastMousePosition.y
+                );
+
+            }
+
+            offset.x += kineticVelocity.x;
+            offset.y += kineticVelocity.y;
+
+            kineticVelocity = toCoords(
+                kineticVelocity.x * kineticDamping,
+                kineticVelocity.y * kineticDamping
+            );
+
+            lastMousePosition = toCoords(mousePosition.x, mousePosition.y);
+        }
+
         var constrainToBounds = function() {
             if(offset.x < minOffset.x) offset.x = minOffset.x;
             if(offset.x > maxOffset.x) offset.x = maxOffset.x;
@@ -162,7 +189,21 @@
 
         this.bind('mouseout', function(evt) {
             mouseOver = false;
+            dragging = false;
             updateMouseDirection(toCoords(0, 0));
+        });
+
+        this.bind('mousedown', function(evt) {
+            if(!dragging) {
+                dragStartPosition = toCoords(mousePosition.x, mousePosition.y);
+                dragStartOffset = toCoords(offset.x, offset.y);
+            }
+            dragging = true;
+            return false;
+        });
+
+        this.bind('mouseup', function(evt) {
+            dragging = false;
         });
 
         //Kick off the main panning loop and return
