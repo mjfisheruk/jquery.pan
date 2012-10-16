@@ -26,7 +26,11 @@
 			<div id="content"></div>
 		</div>
 		<script type="text/javascript">
-			$('#container').pan();
+			$('#container').pan({
+				mousePan: function(dir) {
+					console.log(dir.x, dir.y);
+				}
+			});
 		</script>
 	</body>
 </html>

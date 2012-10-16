@@ -11,6 +11,10 @@
         return {'x': x, 'y': y};
     };
 
+    var vectorsEqual = function(v1, v2) {
+        return v1.x == v2.x && v1.y == v2.y;
+    }
+
     $.fn.pan = function(options) {
 
         //Container is element this plugin is applied to;
@@ -48,11 +52,13 @@
             'speedY'                : 0,
             'mouseSpeed'            : 2,
             'mouseBorder'           : defaultMouseBorder,
-            'updateInterval'        : 50
+            'updateInterval'        : 50,
+            'mousePan'              : null
         }, options);
 
         //Mouse state variables, set by bound mouse events below
         var mouseOver = false;
+        var mousePanningDirection = toCoords(0, 0);
         var mousePosition = {
             'x': 0,
             'y': 0
@@ -65,22 +71,33 @@
             
             //User's mouse being over the element stops autoPanning
             if(mouseOver) {
+
+                //The user's possibly maybe mouse-navigating,
+                //so we'll find out what direction in case we need
+                //to handle any callbacks
+                var newDirection = toCoords(0, 0);
                 
                 //If we're in the interaction zones to either
                 //end of the element, pan in response to the
                 //mouse position.
                 if(mousePosition.x < settings.mouseBorder) {
                     offset.x += settings.mouseSpeed;
+                    newDirection.x = -1;
                 }
                 if (mousePosition.x > containerSize.width - settings.mouseBorder) {
                     offset.x -= settings.mouseSpeed;
+                    newDirection.x = 1;
                 }
                 if(mousePosition.y < settings.mouseBorder) {
                     offset.y += settings.mouseSpeed;
+                    newDirection.y = -1;
                 }
                 if (mousePosition.y > containerSize.height - settings.mouseBorder) {
                     offset.y -= settings.mouseSpeed;
+                    newDirection.y = 1;
                 }
+
+                updateMouseDirection(newDirection);
             
             } else if(settings.auto) {
                 //Mouse isn't over - just pan normally
@@ -115,6 +132,15 @@
             if(offset.y > maxOffset.y) offset.y = maxOffset.y;
         }
 
+        var updateMouseDirection = function(newDirection) {
+            if(!vectorsEqual(newDirection, mousePanningDirection)) {
+                mousePanningDirection = newDirection;
+                if(settings.mousePan) {
+                   settings.mousePan(mousePanningDirection);
+                }
+            }   
+        }
+
         this.bind('mousemove', function(evt) {
             mousePosition.x = evt.pageX - container.offset().left;
             mousePosition.y = evt.pageY - container.offset().top;
@@ -123,6 +149,7 @@
 
         this.bind('mouseout', function(evt) {
             mouseOver = false;
+            updateMouseDirection(toCoords(0, 0));
         });
 
         //Kick off the main panning loop and return
