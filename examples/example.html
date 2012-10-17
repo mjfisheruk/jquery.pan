@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="../js/jquery-min.js"></script>
+		<script type="text/javascript" src="../js/jquery.pan.js"></script>
+		<style type="text/css">
+
+			#container {
+				border: 1px #cc6600 solid;
+				width: 200px;
+				height:350px;
+				margin-left: auto;
+				margin-right: auto;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			#content {
+				width: 200px;
+				background-color: #333333;
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				padding:  0px;
+				margin: 0px;
+			}
+			
+			.contact {
+				height: 50px;
+				width: 190px;
+				border-radius: 3px;
+				background-color: #777777;
+				padding: 0px;
+				margin: 2px 5px 2px 5px;
+			}
+			
+			.contact p {
+				font-family: sans-serif;
+				font-weight: bold;
+				color: #ffffff;
+				font-size: 16px;
+				padding: 5px;
+				padding-bottom: 0px;
+				margin: 0px;
+			}
+			
+			.contact a {
+				font-family: sans-serif;
+				color: #ffffff;
+				font-size: 10px;
+				margin: 0px;
+				padding: 5px;
+				padding-top: 0px;	
+			}			
+
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="content">
+				<div class="contact">
+					<p>John Snow</p><a href="#">john.snow@example.com</a>
+				</div>
+				<div class="contact">
+					<p>Mike Hillcrag</p><a href="#">mike.hillcrag@example.com</a>
+				</div>
+				<div class="contact">
+					<p>Melissa Delgrave</p><a href="#">melissa.delgrave@example.com</a>
+				</div>
+				<div class="contact">
+					<p>Harding Cash</p><a href="#">harding.cash@example.com</a>
+				</div>
+				<div class="contact">
+					<p>Joanna Thornton</p><a href="#">joanna.thornton@example.com</a>
+				</div>
+				<div class="contact">
+					<p>Melinda Xu</p><a href="#">melinda.xu@example.com</a>
+				</div>
+				<div class="contact">
+					<p>Jerald Warnebaker</p><a href="#">jerald.warnebaker@example.com</a>
+				</div>
+				<div class="contact">
+					<p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$('#container').pan({ mouseControl: 'proportional' });
+		</script>
+	</body>
+</html>
