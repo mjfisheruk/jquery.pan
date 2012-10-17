@@ -5,18 +5,23 @@
 		<style type="text/css">
 
 			#container {
-				border: 1px black solid;
-				width: 500px;
-				height:429px;
-				left: 50px;
+				margin-left: auto;
+				margin-right: auto;
+				top: 50px;
+				width: 850px;
+				height: 494px;
+				border: 1px #297aff solid;
 				overflow: hidden;
 				position: relative;
+				-moz-box-shadow: 0px 0px 25px #888;
+				-webkit-box-shadow: 0px 0px 25px #888;
+				box-shadow: 0px 0px 25px #888;
 			}
 			
 			#content {
-				width: 965px;
-				height:429px;
-				background-image: url('img/meadow.png');
+				width: 1692px;
+				height: 494px;
+				background-image: url('img/blueprint.png');
 				position: relative;
 				left: 0px;
 			}			
@@ -28,7 +33,11 @@
 			<div id="content"></div>
 		</div>
 		<script type="text/javascript">
-			$('#container').pan({ autoSpeedX: 2, mouseControl: 'edge' });
+			$('#container').pan({
+				mouseControl: 'edge',
+				mouseSpeed: 15,
+				autoSpeedX: 3
+			});
 		</script>
 	</body>
 </html>
