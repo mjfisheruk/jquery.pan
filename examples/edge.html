@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <script type="text/javascript" src="../js/jquery-min.js"></script>
+        <script type="text/javascript" src="../js/jquery.pan.js"></script>
+        <style type="text/css">
+
+            #container {
+                position: relative;
+                margin-top: 50px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 850px;
+                height: 494px;
+                border: 1px #297aff solid;
+                overflow: hidden;
+                -moz-box-shadow: 0px 0px 25px #888;
+                -webkit-box-shadow: 0px 0px 25px #888;
+                box-shadow: 0px 0px 25px #888;
+            }
+            
+            #content {
+                position: relative;
+                width: 1692px;
+                height: 494px;
+                background-image: url('../img/blueprint.png');
+            }
+            
+            #description {
+                margin-top: 40px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 40px;
+                width: 850px;
+                font-family: sans-serif;
+                font-size: 14px;
+            }
+            
+            #description h1 {
+                color: #297aff;
+            }
+            
+            #description pre {
+                color: #297aff;
+                font-size: 12px;
+                margin-left: 40px;
+                margin-top: 40px;
+            }           
+
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="content"></div>
+        </div>
+        <div id="description">
+            <h1>Edge Scrolling</h1>
+            <p>
+                Try moving your mouse over the image above. Notice how you can control how the image pans by moving your mouse to the left and right edges. By setting the <em>mouseControl</em> option to 'edge', panning will be initiated when the user moves their mouse to the image border.
+            </p>
+            <p>
+                When the mouse is not over the image it will automatically pan horizontally; this behaviour is controlled by the <em>autoSpeedX</em> option.
+            </p>
+            <pre>
+&lt;style type="text/css"&gt;
+    #container {
+        position: relative;
+        width: 850px;
+        height: 494px;
+        border: 1px #297aff solid;
+        overflow: hidden;
+    }
+    
+    #content {
+        position: relative;
+        width: 1692px;
+        height: 494px;
+        background-image: url('../img/blueprint.png');
+    }
+&lt;/style&gt;
+
+&lt;div id="container"&gt;
+    &lt;div id="content"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+    <b>$('#container').pan({
+        mouseControl: 'edge',
+        mouseSpeed: 15,
+        autoSpeedX: 3
+    });</b>
+&lt;/script&gt;
+            </pre>
+        </div>
+        <script type="text/javascript">
+            $('#container').pan({
+                mouseControl: 'edge',
+                mouseSpeed: 15,
+                autoSpeedX: 3
+            });
+        </script>
+    </body>
+</html>
