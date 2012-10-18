@@ -4,15 +4,21 @@
         <script type="text/javascript" src="../js/jquery.pan.js"></script>
         <style type="text/css">
 
-            #container {
+            #column {
                 position: relative;
                 margin-top: 50px;
                 margin-left: auto;
                 margin-right: auto;
                 width: 850px;
+            }
+
+            #container {
+                position: relative;
+                width: 850px;
                 height: 494px;
-                border: 1px #297aff solid;
+                border: 1px #4444ff solid;
                 overflow: hidden;
+                margin-bottom: 50px;
                 -moz-box-shadow: 0px 0px 25px #888;
                 -webkit-box-shadow: 0px 0px 25px #888;
                 box-shadow: 0px 0px 25px #888;
@@ -35,12 +41,18 @@
                 font-size: 14px;
             }
             
-            #description h1 {
-                color: #297aff;
+            body {
+                font-family: sans-serif;
+                font-size: 14px;
+            }
+
+            h1 {
+                color: #4444ff;
+                font-size: 48px;
             }
             
-            #description pre {
-                color: #297aff;
+            pre {
+                color: #2222ff;
                 font-size: 12px;
                 margin-left: 40px;
                 margin-top: 40px;
@@ -49,11 +61,11 @@
         </style>
     </head>
     <body>
-        <div id="container">
-            <div id="content"></div>
-        </div>
-        <div id="description">
+        <div id="column">
             <h1>Edge Scrolling</h1>
+            <div id="container">
+                <div id="content"></div>
+            </div>
             <p>
                 Try moving your mouse over the image above. Notice how you can control how the image pans by moving your mouse to the left and right edges. By setting the <em>mouseControl</em> option to 'edge', panning will be initiated when the user moves their mouse to the image border.
             </p>
@@ -66,7 +78,7 @@
         position: relative;
         width: 850px;
         height: 494px;
-        border: 1px #297aff solid;
+        border: 1px #4444ff solid;
         overflow: hidden;
     }
     
@@ -86,7 +98,7 @@
     <b>$('#container').pan({
         mouseControl: 'edge',
         mouseSpeed: 15,
-        autoSpeedX: 3
+        autoSpeedX: 2
     });</b>
 &lt;/script&gt;
             </pre>
@@ -95,7 +107,7 @@
             $('#container').pan({
                 mouseControl: 'edge',
                 mouseSpeed: 15,
-                autoSpeedX: 3
+                autoSpeedX: 2
             });
         </script>
     </body>
