@@ -187,7 +187,7 @@
             mouseOver = true;
         });
 
-        this.bind('mouseout', function(evt) {
+        this.bind('mouseleave', function(evt) {
             mouseOver = false;
             dragging = false;
             updateMouseDirection(toCoords(0, 0));
