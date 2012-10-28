@@ -25,8 +25,8 @@
         //Precalculate the limits of panning - offset stores
         //the current amount of pan throughout
         var offset = toCoords(
-            Number(content.css('left').replace('px', '')),
-            Number(content.css('top').replace('px', ''))
+            Number(content.css('left').replace('px', '')) | 0,
+            Number(content.css('top').replace('px', ''))  | 0
         );
         
         var containerSize = getSize(container);
