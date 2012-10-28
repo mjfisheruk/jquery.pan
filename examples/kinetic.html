@@ -1,146 +1,193 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<script type="text/javascript" src="../js/jquery-min.js"></script>
-		<script type="text/javascript" src="../js/jquery.pan.js"></script>
-		<style type="text/css">
+  <head>
+    <script type="text/javascript" src="../js/jquery-min.js"></script>
+    <script type="text/javascript" src="../js/jquery.pan.js"></script>
+    <style type="text/css">
 
-			#column {
-                position: relative;
-                padding-top: 0px;
-                padding-left: 60px;
-                padding-right: 60px;
-                margin-top: 0px;
-                margin-left: auto;
-                margin-right: auto;
-                width: 600px;
-                overflow: auto;
-                background-color: #eeeeee;
-            }
+      #column {
+          position: relative;
+          padding-top: 0px;
+          padding-left: 60px;
+          padding-right: 60px;
+          margin-top: 0px;
+          margin-left: auto;
+          margin-right: auto;
+          width: 600px;
+          overflow: auto;
+          background-color: #eeeeee;
+      }
 
-			#container {
-				border: 1px #ff8800 solid;
-				width: 200px;
-				height:350px;
-				margin-right: 30px;
-				overflow: hidden;
-				position: relative;
-				float: left;
-				-moz-box-shadow: 0px 0px 10px #555;
-                -webkit-box-shadow: 0px 0px 10px #555;
-                box-shadow: 0px 0px 10px #555;
-			}
-			
-			#content {
-				width: 200px;
-				background-color: #333333;
-				position: absolute;
-				left: 0px;
-				top: 0px;
-				padding:  0px;
-				margin: 0px;
-			}
-			
-			.contact {
-				height: 50px;
-				width: 190px;
-				border-radius: 3px;
-				background-color: #777777;
-				padding: 0px;
-				margin: 5px 5px 15px 5px;
-			}
-			
-			.contact p {
-				font-family: sans-serif;
-				font-weight: bold;
-				color: #ffffff;
-				font-size: 16px;
-				padding: 5px;
-				padding-bottom: 0px;
-				margin: 0px;
-			}
-			
-			.contact a {
-				font-family: sans-serif;
-				color: #ffffff;
-				font-size: 10px;
-				margin: 0px;
-				padding: 5px;
-				padding-top: 0px;	
-			}
+      #container {
+        border: 1px #ff8800 solid;
+        width: 200px;
+        height:450px;
+        margin-left: 30px;
+        overflow: hidden;
+        position: relative;
+        float: right;
+        -moz-box-shadow: 0px 0px 10px #555;
+        -webkit-box-shadow: 0px 0px 10px #555;
+        box-shadow: 0px 0px 10px #555;
+      }
+      
+      #content {
+        width: 200px;
+        background-color: #333333;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        padding:  0px;
+        margin: 0px;
+      }
+      
+      .contact {
+        height: 50px;
+        width: 190px;
+        border-radius: 3px;
+        background-color: #777777;
+        padding: 0px;
+        margin: 5px 5px 15px 5px;
+      }
+      
+      .contact p {
+        font-family: sans-serif;
+        font-weight: bold;
+        color: #ffffff;
+        font-size: 16px;
+        padding: 5px;
+        padding-bottom: 0px;
+        margin: 0px;
+      }
+      
+      .contact a {
+        font-family: sans-serif;
+        color: #ffffff;
+        font-size: 10px;
+        margin: 0px;
+        padding: 5px;
+        padding-top: 0px; 
+      }
 
-			body {
-                font-family: sans-serif;
-                font-size: 14px;
-                background-color: #333333;
-                padding: 0px;
-                margin: 0px;
-            }
+      body {
+          font-family: sans-serif;
+          font-size: 14px;
+          background-color: #333333;
+          padding: 0px;
+          margin: 0px;
+      }
 
-            h1 {
-                color: #ff8800;
-                font-size: 48px;
-                margin-top: 0px;
-                padding-top: 20px;
-            }
-            
-            p {
-            	padding-left: 30px;
-            }
+      h1 {
+          color: #ff8800;
+          font-size: 48px;
+          margin-top: 0px;
+          padding-top: 20px;
+      }
+      
+      p {
+        margin-right: 40px;
+      }
 
-            pre {
-                color: #2222ff;
-                font-size: 12px;
-                margin-left: 40px;
-                margin-top: 40px;
-            }			
+      pre {
+          color: #333333;
+          font-size: 12px;
+          margin-left: 0px;
+          margin-top: 40px;
+      }     
 
-		</style>
-	</head>
-	<body>
-		<div id="column">
-			<h1>Kinetic Scrolling</h2>
-			<div id="container">
-				<div id="content">
-					<div class="contact"><p>John Snow</p><a href="#">john.snow@example.com</a></div>
-					<div class="contact"><p>Mike Hillcrag</p><a href="#">mike.hillcrag@example.com</a></div>
-					<div class="contact"><p>Melissa Delgrave</p><a href="#">melissa.delgrave@example.com</a></div>
-					<div class="contact"><p>Harding Cash</p><a href="#">harding.cash@example.com</a></div>
-					<div class="contact"><p>Joanna Thornton</p><a href="#">joanna.thornton@example.com</a></div>
-					<div class="contact"><p>Melinda Xu</p><a href="#">melinda.xu@example.com</a></div>
-					<div class="contact"><p>Jerald Warnebaker</p><a href="#">jerald.warnebaker@example.com</a></div>
-					<div class="contact"><p>Sandy Knuthsford</p><a href="#">sandy.knuthsford@example.com</a></div>
-					<div class="contact"><p>Mohammed Jessup</p><a href="#">mohammed.jessup@example.com</a></div>
-					<div class="contact"><p>Candy Martin</p><a href="#">candy.martin@example.com</a></div>
-					<div class="contact"><p>Joe McGregor</p><a href="#">joe.mcgregor@example.com</a></div>
-					<div class="contact"><p>Jennifer Hunt</p><a href="#">jennifer.hunt@example.com</a></div>
-					<div class="contact"><p>Jamal Patterson</p><a href="#">jamal.patterson@example.com</a></div>
-					<div class="contact"><p>Carl Baker</p><a href="#">carl.baker@example.com</a></div>
-					<div class="contact"><p>Audrey Clayton</p><a href="#">audrey.clayton@example.com</a></div>
-					<div class="contact"><p>Michael White</p><a href="#">michael.white@example.com</a></div>
-					<div class="contact"><p>Aaron Greaves</p><a href="#">aaron.greaves@example.com</a></div>
-					<div class="contact"><p>Nicola Saxon</p><a href="#">nicola.saxon@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
-					<div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>		
-				</div>
-			</div>
-			<p>
-				Kinetic scrolling is the default method of mouse control.
-			</p>
-			<p>
-				Click and drag to pan the contact list to the left. If you release the mouse whilst panning, you'll see the list continue to scroll with the speed you gave it whilst dragging.
-			</p>
-		</div>
-		<script type="text/javascript">
-			$('#container').pan({kineticDamping: 0.95});
-		</script>
-	</body>
+    </style>
+  </head>
+  <body>
+    <div id="column">
+      <h1>Kinetic Scrolling</h2>
+      <div id="container">
+        <div id="content">
+          <div class="contact"><p>John Snow</p><a href="#">john.snow@example.com</a></div>
+          <div class="contact"><p>Mike Hillcrag</p><a href="#">mike.hillcrag@example.com</a></div>
+          <div class="contact"><p>Melissa Delgrave</p><a href="#">melissa.delgrave@example.com</a></div>
+          <div class="contact"><p>Harding Cash</p><a href="#">harding.cash@example.com</a></div>
+          <div class="contact"><p>Joanna Thornton</p><a href="#">joanna.thornton@example.com</a></div>
+          <div class="contact"><p>Melinda Xu</p><a href="#">melinda.xu@example.com</a></div>
+          <div class="contact"><p>Jerald Warnebaker</p><a href="#">jerald.warnebaker@example.com</a></div>
+          <div class="contact"><p>Sandy Knuthsford</p><a href="#">sandy.knuthsford@example.com</a></div>
+          <div class="contact"><p>Mohammed Jessup</p><a href="#">mohammed.jessup@example.com</a></div>
+          <div class="contact"><p>Candy Martin</p><a href="#">candy.martin@example.com</a></div>
+          <div class="contact"><p>Joe McGregor</p><a href="#">joe.mcgregor@example.com</a></div>
+          <div class="contact"><p>Jennifer Hunt</p><a href="#">jennifer.hunt@example.com</a></div>
+          <div class="contact"><p>Jamal Patterson</p><a href="#">jamal.patterson@example.com</a></div>
+          <div class="contact"><p>Carl Baker</p><a href="#">carl.baker@example.com</a></div>
+          <div class="contact"><p>Audrey Clayton</p><a href="#">audrey.clayton@example.com</a></div>
+          <div class="contact"><p>Michael White</p><a href="#">michael.white@example.com</a></div>
+          <div class="contact"><p>Aaron Greaves</p><a href="#">aaron.greaves@example.com</a></div>
+          <div class="contact"><p>Nicola Saxon</p><a href="#">nicola.saxon@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>
+          <div class="contact"><p>Martin Heiferwhite</p><a href="#">martin.heiferwhite@example.com</a></div>    
+        </div>
+      </div>
+      <p>
+        Kinetic scrolling is the default method of mouse control.
+      </p>
+      <p>
+        Click and drag to pan the contact list to the left. If you release the mouse whilst panning, you'll see the list continue to scroll with the speed you gave it whilst dragging.
+      </p>
+      <p>
+        The kineticDamping options controls how quickly the content will come to rest after being released whilst in motion
+      </p>
+      <pre>
+&ltstyle type="text/css">
+  #container {
+    border: 1px #ff8800 solid;
+    width: 200px;
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  #content {
+    width: 200px;
+    background-color: #333333;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding:  0px;
+    margin: 0px;
+  }
+
+  .contact {
+    height: 50px;
+    width: 190px;
+    border-radius: 3px;
+    background-color: #777777;
+    padding: 0px;
+    margin: 5px 5px 15px 5px;
+  }
+&lt/style>
+
+&lt;div id="container">
+  &lt;div id="content">
+    &lt;div class="contact">
+      &lt;p>John Snow&lt;/p>
+      &lt;a href="#">john.snow@example.com&lt;/a>
+    &lt;/div>
+    &lt;!-- ...snip... -->
+  &lt;/div>
+&lt;/div>
+
+<b>&lt;script type="text/javascript">
+  $('#container').pan({kineticDamping: 0.95});
+&lt;/script></b>
+      </pre>
+    </div>
+    <script type="text/javascript">
+      $('#container').pan({kineticDamping: 0.85});
+    </script>
+  </body>
 </html>
