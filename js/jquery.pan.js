@@ -71,20 +71,20 @@
 
         var onInterval = function() {
             
-            //User's mouse being over the element stops autoPanning
-            if(mouseOver) {
-                var mouseControlHandlers = {
-                    'edge'          : updateEdge,
-                    'proportional'  : updateProportional,
-                    'kinetic'       : updateKinetic
-                };
-                mouseControlHandlers[settings.mouseControl]();
-            } else {
-                //Mouse isn't over - just pan normally
+            var mouseControlHandlers = {
+                'edge'          : updateEdge,
+                'proportional'  : updateProportional,
+                'kinetic'       : updateKinetic
+            };
+
+            var currentHandler = settings.mouseControl;
+
+            if(!mouseControlHandlers[currentHandler]()) {
+                //The handler isn't active - just pan normally
                 offset.x += settings.autoSpeedX;
                 offset.y += settings.autoSpeedY;
             }
-
+            
             //If the previous updates have take the content
             //outside the allowed min/max, bring it back in
             constrainToBounds();
@@ -104,6 +104,9 @@
         }
 
         var updateEdge = function() {
+
+            if(!mouseOver) return false;
+
             //The user's possibly maybe mouse-navigating,
             //so we'll find out what direction in case we need
             //to handle any callbacks
@@ -130,15 +133,22 @@
             }
 
             updateMouseDirection(newDirection);
+
+            return true;
         }
 
         var updateProportional = function() {
+
+            if(!mouseOver) return false;
+
             var rx = mousePosition.x / containerSize.width;
             var ry = mousePosition.y / containerSize.height;
             offset = toCoords(
                 (minOffset.x - maxOffset.x) * rx + maxOffset.x,
                 (minOffset.y - maxOffset.y) * ry + maxOffset.y
             );
+
+            return true;
         }
 
         var updateKinetic = function() {
@@ -152,6 +162,8 @@
                     mousePosition.x - lastMousePosition.x,
                     mousePosition.y - lastMousePosition.y
                 );
+
+                lastMousePosition = toCoords(mousePosition.x, mousePosition.y);
             }
 
             offset.x += kineticVelocity.x;
@@ -162,7 +174,11 @@
                 kineticVelocity.y * settings.kineticDamping
             );
 
-            lastMousePosition = toCoords(mousePosition.x, mousePosition.y);
+            //If the kinetic velocity is still greater than a small threshold, this
+            //function is still controlling movement so we return true so autopanning
+            //doesn't interfere.
+            var speedSquared = Math.pow(kineticVelocity.x, 2) + Math.pow(kineticVelocity.y, 2);
+            return speedSquared > 0.01
         }
 
         var constrainToBounds = function() {
