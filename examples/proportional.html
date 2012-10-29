@@ -1,0 +1,115 @@
+<html>
+    <head>
+        <script type="text/javascript" src="../js/jquery-min.js"></script>
+        <script type="text/javascript" src="../js/jquery.pan.js"></script>
+        <style type="text/css">
+
+            #column {
+                position: relative;
+                margin-top: 50px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 850px;
+            }
+
+            #container {
+                position: relative;
+                width: 250px;
+                height: 250px;
+                border: 1px #bb3300 solid;
+                float: left;
+                margin-right: 30px;
+                overflow: hidden;
+                -moz-box-shadow: 0px 0px 25px #888;
+                -webkit-box-shadow: 0px 0px 25px #888;
+                box-shadow: 0px 0px 25px #888;
+            }
+            
+            #content {
+                position: relative;
+                width: 1692px;
+                height: 494px;
+                background-image: url('../img/blueprint.png');
+            }
+            
+            #description {
+                margin-top: 40px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 40px;
+                width: 850px;
+                font-family: sans-serif;
+                font-size: 14px;
+            }
+            
+            body {
+                font-family: sans-serif;
+                font-size: 14px;
+            }
+
+            h1 {
+                color: #bb3300;
+                font-size: 48px;
+            }
+            
+            pre {
+                color: #bb3300;
+                font-size: 12px;
+                margin-left: 300px;
+                width: 600px;
+            }           
+
+        </style>
+    </head>
+    <body>
+        <div id="column">
+            <h1>Proportional Scrolling</h1>
+            <div id="container">
+                <div id="content"></div>
+            </div>
+            <p>
+                The proportional panning mode is best suited for situations where you have content that needs to be available for a user to quickly scan and absorb, but only a limited amount of screen space in which to display it (a similar mechanic is seen in t-shirt design previews in online stores).
+            </p>
+            <p>
+                When the mouse is outside the image it will pan both horizontally and vertically as both the <em>autoSpeedX</em> and <em>autoSpeedY</em> options are set. Note that this is not unique to this example - all scroll types and options will operate both vertically and horizontally if there is sufficient room to do so.
+            </p>
+            <pre>
+&lt;style type="text/css">
+    #container {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        border: 1px #bb3300 solid;
+        float: left;
+    }
+
+    #content {
+        position: relative;
+        width: 1692px;
+        height: 494px;
+        background-image: url('../img/blueprint.png');
+    }
+&lt;/style>
+
+&lt;div id="container">
+    &lt;div id="content">&lt;/div>
+&lt;/div>
+
+&lt;script type="text/javascript">
+    <b>$('#container').pan({
+        mouseControl: 'proportional',
+        autoSpeedX: 1,
+        autoSpeedY: 2
+    });</b>
+&lt;/script>
+            </pre>
+        </div>
+        <script type="text/javascript">
+            $('#container').pan({
+                mouseControl: 'proportional',
+                autoSpeedX: 1,
+                autoSpeedY: 2
+            });
+        </script>
+    </body>
+</html>
