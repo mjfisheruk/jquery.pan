@@ -206,6 +206,7 @@
         this.bind('mouseleave', function(evt) {
             mouseOver = false;
             dragging = false;
+            lastMousePosition = null;
             updateMouseDirection(toCoords(0, 0));
         });
 
@@ -216,6 +217,7 @@
 
         this.bind('mouseup', function(evt) {
             dragging = false;
+            lastMousePosition = null;
         });
 
         //Kick off the main panning loop and return
