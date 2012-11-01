@@ -92,6 +92,17 @@ Options relating to edge panning:
 
 The proportional panning mode has no specific options.
 
+	$('#container').pan({
+        'mouseControl'           : 'proportional',  //Enable proportional panning
+    
+        'proportionalSmoothing'  : 0.8              //Controls the level of smoothing on the
+                                                    //panning movement - takes a value between
+                                                    //zero and one. Values closer to one will
+                                                    //result in a smoother movement that will
+                                                    //take longer to reach its destination. A
+                                                    //value of zero results in an instant pan.
+    });
+
 General options that effect all panning modes:
 
 	$('#container').pan({

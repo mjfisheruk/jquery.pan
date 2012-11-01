@@ -53,6 +53,7 @@
             'kineticDamping'        : 0.8,
             'mouseEdgeSpeed'        : 5,
             'mouseEdgeWidth'        : defaultMouseEdge,
+            'proportionalSmoothing' : 0.5,
             'updateInterval'        : 50,
             'mousePan'              : null
         }, options);
@@ -140,13 +141,19 @@
         var updateProportional = function() {
 
             if(!mouseOver) return false;
-
+            
             var rx = mousePosition.x / containerSize.width;
             var ry = mousePosition.y / containerSize.height;
-            offset = toCoords(
+            targetOffset = toCoords(
                 (minOffset.x - maxOffset.x) * rx + maxOffset.x,
                 (minOffset.y - maxOffset.y) * ry + maxOffset.y
             );
+
+            var damping = 1 - settings.proportionalSmoothing;
+            offset = toCoords(
+                (targetOffset.x - offset.x) * damping + offset.x,
+                (targetOffset.y - offset.y) * damping + offset.y
+            )
 
             return true;
         }
