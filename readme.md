@@ -116,3 +116,11 @@ General options that effect all panning modes:
                                       //moved per update, so they are *not* currently framerate
                                       //independent
     });
+
+Flags
+-----
+
+Flags my be added as CSS classes to the container element
+
+* `pan-off`: adding this class to the container element will disable any panning behaviour. Removing it will begin the panning again.
+
