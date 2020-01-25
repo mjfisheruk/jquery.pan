@@ -72,6 +72,8 @@
 
         var onInterval = function() {
             
+            if (container.hasClass('pan-off')) return false; //Temporarily disabling pan add/remove class pan-off
+            
             var mouseControlHandlers = {
                 'edge'          : updateEdge,
                 'proportional'  : updateProportional,
