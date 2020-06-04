@@ -160,9 +160,9 @@
             return true;
         }
 
-        var updateKinetic = function() {
+        var updateKinetic = function(e) {
             if(dragging) {
-                
+   
                 if(lastMousePosition == null) {
                     lastMousePosition = toCoords(mousePosition.x, mousePosition.y);    
                 }
@@ -172,7 +172,7 @@
                     mousePosition.y - lastMousePosition.y
                 );
 
-                lastMousePosition = toCoords(mousePosition.x, mousePosition.y);
+                lastMousePosition = toCoords(mousePosition.x, mousePosition.y); 
             }
 
             offset.x += kineticVelocity.x;
@@ -212,6 +212,19 @@
             mouseOver = true;
         });
 
+        this.bind('touch touchstart', function(evt){
+            dragging = true;
+            return false; //Prevents FF from thumbnailing & dragging
+        });
+
+
+        this.bind('touchmove', function(evt){
+            mousePosition.x = evt.touches[0].screenX - container.offset().left;
+            mousePosition.y = evt.touches[0].screenY - container.offset().top;
+            dragging = true;
+            return false; //Prevents FF from thumbnailing & dragging
+        });
+
         this.bind('mouseleave', function(evt) {
             mouseOver = false;
             dragging = false;
@@ -219,12 +232,12 @@
             updateMouseDirection(toCoords(0, 0));
         });
 
-        this.bind('mousedown', function(evt) {
+        this.bind('mousedown touchstart', function(evt) {
             dragging = true;
             return false; //Prevents FF from thumbnailing & dragging
         });
 
-        this.bind('mouseup', function(evt) {
+        this.bind('mouseup touchend', function(evt) {
             dragging = false;
             lastMousePosition = null;
         });
