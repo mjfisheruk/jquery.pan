@@ -162,7 +162,7 @@
 
         var updateKinetic = function() {
             if(dragging) {
-                
+   
                 if(lastMousePosition == null) {
                     lastMousePosition = toCoords(mousePosition.x, mousePosition.y);    
                 }
@@ -172,7 +172,7 @@
                     mousePosition.y - lastMousePosition.y
                 );
 
-                lastMousePosition = toCoords(mousePosition.x, mousePosition.y);
+                lastMousePosition = toCoords(mousePosition.x, mousePosition.y); 
             }
 
             offset.x += kineticVelocity.x;
@@ -212,19 +212,32 @@
             mouseOver = true;
         });
 
-        this.bind('mouseleave', function(evt) {
+        this.bind('touch touchstart', function(){
+            dragging = true;
+            return false; //Prevents FF from thumbnailing & dragging
+        });
+
+
+        this.bind('touchmove', function(evt){
+            mousePosition.x = evt.touches[0].screenX - container.offset().left;
+            mousePosition.y = evt.touches[0].screenY - container.offset().top;
+            dragging = true;
+            return false; //Prevents FF from thumbnailing & dragging
+        });
+
+        this.bind('mouseleave', function() {
             mouseOver = false;
             dragging = false;
             lastMousePosition = null;
             updateMouseDirection(toCoords(0, 0));
         });
 
-        this.bind('mousedown', function(evt) {
+        this.bind('mousedown touchstart', function() {
             dragging = true;
             return false; //Prevents FF from thumbnailing & dragging
         });
 
-        this.bind('mouseup', function(evt) {
+        this.bind('mouseup touchend', function() {
             dragging = false;
             lastMousePosition = null;
         });
