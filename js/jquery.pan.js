@@ -160,7 +160,7 @@
             return true;
         }
 
-        var updateKinetic = function(e) {
+        var updateKinetic = function() {
             if(dragging) {
    
                 if(lastMousePosition == null) {
@@ -212,7 +212,7 @@
             mouseOver = true;
         });
 
-        this.bind('touch touchstart', function(evt){
+        this.bind('touch touchstart', function(){
             dragging = true;
             return false; //Prevents FF from thumbnailing & dragging
         });
@@ -225,19 +225,19 @@
             return false; //Prevents FF from thumbnailing & dragging
         });
 
-        this.bind('mouseleave', function(evt) {
+        this.bind('mouseleave', function() {
             mouseOver = false;
             dragging = false;
             lastMousePosition = null;
             updateMouseDirection(toCoords(0, 0));
         });
 
-        this.bind('mousedown touchstart', function(evt) {
+        this.bind('mousedown touchstart', function() {
             dragging = true;
             return false; //Prevents FF from thumbnailing & dragging
         });
 
-        this.bind('mouseup touchend', function(evt) {
+        this.bind('mouseup touchend', function() {
             dragging = false;
             lastMousePosition = null;
         });
